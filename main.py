@@ -6,14 +6,23 @@ from selenium.webdriver.chrome.options import Options
 import pandas as pd
 import time
 
+# Setup AdBlock capability for chrome driver
+chrop = webdriver.ChromeOptions()
+chrop.add_extension('extension_4_43_0_0.crx')
+
 # Start chrome webdriver
-driver = webdriver.Chrome("/usr/bin/chromedriver")
+driver = webdriver.Chrome("/usr/bin/chromedriver", options=chrop)
 driver.implicitly_wait(10)  # Set implicit wait time of 10 seconds
 wait = WebDriverWait(driver, 10)  # Object for explicit waits
 
 # Go to youtube page
 driver.get("https://www.youtube.com/channel/UCQIwYkX2GnytqpCEF_r4yBA")
 driver.maximize_window()
+
+# Close extension install tab
+driver.switch_to.window(driver.window_handles[1])
+driver.close()
+driver.switch_to.window(driver.window_handles[0])
 
 # Locate button to agree to terms and continue to target page
 agree_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#yDmH0d > c-wiz > div > div > div > "
@@ -28,6 +37,7 @@ video_tab.click()
 # Get links for all videos
 video_elements = driver.find_elements_by_id("video-title")
 video_urls = [vid.get_attribute('href') for vid in video_elements]
+print(len(video_urls))
 
 # Setup dataframe for storing video info
 # Link to video, title, description text, upload date, # of views, # of comments
