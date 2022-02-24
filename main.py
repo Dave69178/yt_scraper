@@ -38,6 +38,9 @@ agree_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#yDmH0d 
                                                                        "div > div > button")))
 agree_button.click()
 
+# Get name of YouTube channel
+name = presence_wait(By.CSS_SELECTOR, '#text-container').text
+
 # Locate "Videos" tab
 video_tab = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#tabsContent > tp-yt-paper-tab:nth-child(4)")))
 video_tab.click()
@@ -56,7 +59,6 @@ while True:
 # Get links for all videos
 video_elements = driver.find_elements_by_id("video-title")
 video_urls = [vid.get_attribute('href') for vid in video_elements]
-print(len(video_urls))
 
 # Setup list to store data to load into dataframe
 data = []
@@ -80,3 +82,10 @@ for video in video_urls:
 
     data.append([link, thumbnail, title, desc, up_date, views, num_comments])
 
+# Setup dataframe for storing video info
+# Link to video, title, description text, upload date, # of views, # of comments
+df = pd.DataFrame(data,columns=['link', 'thumbnail', 'title', 'desc', 'up_date', 'views', 'num_comments'])
+
+# Output DataFrame
+file_name = name + ".csv"
+df.to_csv(file_name, index=False)
