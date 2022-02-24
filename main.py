@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
 import pandas as pd
 import time
 
@@ -33,6 +32,18 @@ agree_button.click()
 # Locate "Videos" tab
 video_tab = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#tabsContent > tp-yt-paper-tab:nth-child(4)")))
 video_tab.click()
+
+time.sleep(1)
+# Scroll down to load all videos
+prev_height = driver.execute_script("return window.pageYOffset + window.innerHeight")
+while True:
+    driver.execute_script("window.scrollBy(0,1000);")
+    time.sleep(1)
+    new_height = driver.execute_script("return window.pageYOffset + window.innerHeight")
+    if new_height == prev_height:
+        break
+    prev_height = new_height
+
 
 # Get links for all videos
 video_elements = driver.find_elements_by_id("video-title")
