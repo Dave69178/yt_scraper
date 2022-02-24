@@ -10,6 +10,10 @@ Standard webscraping approach using Selenium.
 4. Load data into pandas DataFrame
 5. Output as CSV
 
+## Adblock
+
+'extension_4_43_0_0.crx' is the .crx file for AdBlock which is added to the webdriver to maintain consistency throughout video webpages.
+
 ## Output
 
 Currently the '.csv' file outputted will contain a dataframe consisting of the following columns:
