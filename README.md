@@ -7,6 +7,8 @@ Standard webscraping approach using Selenium.
 1. Navigate to desired channel
 2. Load all videos and create list of URLs to scrape from
 3. Extract data on each video
+4. Load data into pandas DataFrame
+5. Output as CSV
 
 ## Output
 
